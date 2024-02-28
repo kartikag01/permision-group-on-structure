@@ -15,7 +15,7 @@ function PermissionGroup() {
 
     return (
         <>
-            <div class="px-16 py-6 space-y-4 ">
+            <div class="px-16 py-4 space-y-4 ">
                 <p class="text-base leading-relaxed text-gray-900 font-bold">
                     Name your permission group
                 </p>
@@ -23,6 +23,7 @@ function PermissionGroup() {
                 <form onSubmit={handleOnSubmitStep1}>
                     <label for="permission_group_name" class="block mb-2 text-sm font-medium text-gray-900">Permission group name</label>
                     <input
+                        autoFocus
                         onChange={(e) => setGroup_name(e.target.value)}
                         defaultValue={group_name}
                         type="text" id="permission_group_name" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-80 p-2.5 " placeholder="Group Name" required />

@@ -28,6 +28,7 @@ function Entities() {
                     searchCount={`${0} Entities`}
                 />
 
+                <p className="text-gray-500 py-1 my-0">TODO</p>
             </div>
             <ActionBar onNextClick={handleOnSubmitStep} />
         </>

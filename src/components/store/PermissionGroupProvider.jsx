@@ -6,15 +6,15 @@ import reducer from "./reducer";
 import { MODEL_STATE } from "../constants/constants";
 
 const initialState = {
-    activeStep: MODEL_STATE.HIDDEN, // Intital value ass hidden
+    activeStep: MODEL_STATE.HIDDEN, // Intital value as hidden
     // step 1
     group_name: "",
     // step 2
-    structures: [{ name: "sadfsd", role: "sdafasd" }],
+    structures: {},
     // step 3
     // TODO?
     // step 4
-
+    members: {},
 };
 
 function PermissionGroupProvider(props) {
@@ -38,7 +38,24 @@ function PermissionGroupProvider(props) {
             });
         },
         // Step 2
+        structures: state.structures,
+        setStoreStructures: (structures) => {
+            dispatch({
+                type: "SET_STRUCTURES",
+                payload: { structures },
+            });
+        },
+        // Step 3
+        // TODO?
 
+        // Step 4
+        members: state.members,
+        setStoreMembers: (members) => {
+            dispatch({
+                type: "SET_MEMBERS",
+                payload: { members },
+            });
+        },
     }
 
     return (

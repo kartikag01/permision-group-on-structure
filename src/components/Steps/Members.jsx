@@ -6,22 +6,45 @@ import ActionBar from "../Actionbar/ActionBar";
 import MemberList from "./members/MemberList";
 
 function Members() {
-    const { setActiveStep } = useContext(PermissionGroupContext);
+    const { setActiveStep, members: storedMembers, setStoreMembers } = useContext(PermissionGroupContext);
+
     const [members, setMembers] = useState([]);
+    const [searchKey, setSearchKey] = useState('');
 
     useEffect(() => {
-        // TODO fetch members from API.
-        setMembers([
-            { "user": "Ben Stockton", "email": "ben@dealsplus.io", "organisation": "Dealsplus" },
-            { "user": "Sai Padala", "email": "sai@dealsplus.io", "organisation": "Dealsplus" },
-            { "user": "Matt Wallis", "email": "matt@dealsplus.io", "organisation": "Phoneix" },
-        ]);
+        fetch("/api/members")
+            .then((response) => response.json())
+            .then((res) => {
+                const newMembers = res.data.map(_ => {
+                    const storedStructure = storedMembers[_.email] || {
+                        checked: false,
+                        ..._ // user, email, organisation
+                    };
+                    return storedStructure
+                });
+                setMembers(newMembers);
+            });
     }, []);
+
+    function handleOnChangeMember(index, newPayload) {
+        setMembers(prevData => {
+            return [
+                ...prevData.slice(0, index),
+                {
+                    ...prevData[index],
+                    ...newPayload
+                },
+                ...prevData.slice(index + 1)
+            ]
+        });
+    }
+
 
     function handleOnSubmitStep(e) {
         e && e.preventDefault();
-        // TODO store form data in reducer.
-        setActiveStep(MODEL_STATE.MEMBERS);
+        setStoreMembers(members.filter(_ => _.checked));
+        setActiveStep(MODEL_STATE.HIDDEN);
+        // TODO Make API call and reset the redux state to initial state.
     }
 
     return (
@@ -36,10 +59,20 @@ function Members() {
 
                 {/* Search Bar */}
                 <SearchBar
-                    searchCount={`${0} Members`}
+                    searchCount={`${members.filter(_ => _.checked).length} Members`}
+                    onSearchChange={(e) => {
+                        setSearchKey(e.target.value);
+                    }}
                 />
 
-                <MemberList members={members} />
+                <MemberList
+                    onChange={handleOnChangeMember}
+                    members={members.filter((member) => {
+                        return member.email.toLowerCase().includes(searchKey.toLowerCase()) ||
+                            member.user.toLowerCase().includes(searchKey.toLowerCase()) ||
+                            member.organisation.toLowerCase().includes(searchKey.toLowerCase());
+                    })}
+                />
 
             </div>
             <ActionBar onNextClick={handleOnSubmitStep} />

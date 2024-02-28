@@ -1,9 +1,7 @@
 "use client";
-import PersmissionWorkflow from "@/components/PersmissionWorkflow";
-import { MODEL_STATE } from "@/components/constants/constants";
-import PermissionGroupContext from "@/components/store/Context";
-import PermissionGroupProvider from "@/components/store/PermissionGroupProvider";
-import Image from "next/image";
+import PersmissionWorkflow from "./../components/PersmissionWorkflow";
+import { MODEL_STATE } from "./../components/constants/constants";
+import PermissionGroupContext from "./../components/store/Context";
 import { useContext, useState } from "react";
 import { createPortal } from "react-dom";
 

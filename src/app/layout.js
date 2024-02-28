@@ -1,6 +1,6 @@
 import { Inter } from "next/font/google";
 import "./globals.css";
-import PermissionGroupProvider from "@/components/store/PermissionGroupProvider";
+import PermissionGroupProvider from "./../components/store/PermissionGroupProvider";
 
 const inter = Inter({ subsets: ["latin"] });
 
